@@ -10,6 +10,7 @@ import org.springframework.ws.context.MessageContext;
 @Slf4j
 public class SoapClientInterceptor implements ClientInterceptor {
 
+    // Need to use Filter in logback xml config to make use of Markers
     private final Marker imp = MarkerFactory.getMarker("IMP");
     @Override
     public boolean handleRequest(MessageContext messageContext) throws WebServiceClientException {
@@ -25,11 +26,12 @@ public class SoapClientInterceptor implements ClientInterceptor {
 
     @Override
     public boolean handleFault(MessageContext messageContext) throws WebServiceClientException {
+        log.error("Handling fault");
         return false;
     }
 
     @Override
     public void afterCompletion(MessageContext messageContext, Exception ex) throws WebServiceClientException {
-
+        log.info("Request completed");
     }
 }
