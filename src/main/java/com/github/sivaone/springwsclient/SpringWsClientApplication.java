@@ -1,5 +1,7 @@
 package com.github.sivaone.springwsclient;
 
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,8 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SpringWsClientApplication implements CommandLineRunner {
 
+	private final XLogger log = XLoggerFactory.getXLogger(SpringWsClientApplication.class);
 	@Autowired
-	WebServiceClient client = new WebServiceClient();
+	private WebServiceClient client;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringWsClientApplication.class, args);
@@ -17,6 +20,16 @@ public class SpringWsClientApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		client.sendAndReceive();
+
+		log.info("Starting command");
+		log.entry(args[0]);
+		String capitalCity = null;
+		try {
+			capitalCity = client.sendAndReceive(args[0]);
+		} catch (RuntimeException ex) {
+			log.catching(ex);
+		}
+
+		log.exit(capitalCity);
 	}
 }
