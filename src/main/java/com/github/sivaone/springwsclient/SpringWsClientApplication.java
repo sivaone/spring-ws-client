@@ -24,8 +24,10 @@ public class SpringWsClientApplication implements CommandLineRunner {
 		log.info("Starting command");
 		log.entry(args[0]);
 		String capitalCity = null;
+		String currency = null;
 		try {
-			capitalCity = client.sendAndReceive(args[0]);
+			capitalCity = client.getCapitalCity(args[0]);
+			currency = client.getCountryCurrency(args[0]);
 		} catch (RuntimeException ex) {
 			log.catching(ex);
 		}
