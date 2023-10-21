@@ -1,0 +1,25 @@
+package com.github.sivaone.springwsclient;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+@Configuration
+public class SoapConfig {
+
+    @Bean
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("org.oorsprong.websamples");
+        return marshaller;
+    }
+
+    @Bean
+    public WebServiceClient webServiceClient(Jaxb2Marshaller marshaller) {
+        WebServiceClient client = new WebServiceClient();
+        client.setDefaultUri("http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso");
+        client.setMarshaller(marshaller);
+        client.setUnmarshaller(marshaller);
+        return client;
+    }
+}
