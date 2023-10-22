@@ -6,6 +6,9 @@ import org.slf4j.MarkerFactory;
 import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.soap.SoapBody;
+import org.springframework.ws.soap.SoapFault;
+import org.springframework.ws.soap.SoapMessage;
 
 @Slf4j
 public class SoapClientInterceptor implements ClientInterceptor {
@@ -27,6 +30,15 @@ public class SoapClientInterceptor implements ClientInterceptor {
     @Override
     public boolean handleFault(MessageContext messageContext) throws WebServiceClientException {
         log.error("Handling fault");
+
+        SoapMessage soapMessage = (SoapMessage) messageContext.getResponse();
+        SoapBody soapBody = soapMessage.getEnvelope().getBody();
+        SoapFault soapFault = soapBody.getFault();
+        String faultStringOrReason = soapFault.getFaultStringOrReason();
+
+        log.error("Exception during soap call. Reason {}", faultStringOrReason);
+        //throw new RuntimeException(String.format("Exception during soap call. Reason %s", faultStringOrReason));
+
         return false;
     }
 
