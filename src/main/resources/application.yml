@@ -1,3 +1,5 @@
+server:
+  port: 18080
 logging:
 #  pattern:
 #    console: %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n
@@ -5,3 +7,5 @@ logging:
     root: warn
     org.springframework: error
     com.github.sivaone.springwsclient: trace
+app:
+  soap-url: "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso"

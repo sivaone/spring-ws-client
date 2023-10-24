@@ -1,5 +1,6 @@
 package com.github.sivaone.springwsclient;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -8,7 +9,11 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 @Configuration
 public class SoapConfig {
 
-    public static final String SERVICE_URL = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso";
+    private final String soapUrl;
+
+    public SoapConfig(@Value("${app.soap-url}") String soapUrl) {
+        this.soapUrl = soapUrl;
+    }
 
     @Bean
     public Jaxb2Marshaller marshaller() {
@@ -20,7 +25,7 @@ public class SoapConfig {
     @Bean
     public WebServiceClient webServiceClient(Jaxb2Marshaller marshaller) {
         WebServiceClient client = new WebServiceClient();
-        client.setDefaultUri(SERVICE_URL);
+        client.setDefaultUri(this.soapUrl);
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
         client.setInterceptors(new ClientInterceptor[]{clientInterceptor()});
