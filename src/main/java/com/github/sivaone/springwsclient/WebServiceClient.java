@@ -19,6 +19,8 @@ import org.springframework.ws.support.MarshallingUtils;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
+/** This class is used to do a soap call */
+
 @Slf4j
 public class WebServiceClient extends WebServiceGatewaySupport {
 
