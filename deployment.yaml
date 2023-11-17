@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: spring-ws-client
+spec:
+  selector:
+    matchLabels:
+      app: spring-ws-client
+  replicas: 2 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: spring-ws-client
+    spec:
+      containers:
+        - name: spring-ws-client
+          image: spring-ws-client-image:1.0 # Image that will be used to containers in the cluster
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 # The port that the container is running on in the cluster
+          env:
+            - name: flight_first_class
+              valueFrom:
+                configMapKeyRef:
+                  name: test-config
+                  key: flight.first_class
+
+            - name: flight_business_class
+              valueFrom:
+                configMapKeyRef:
+                  name: test-config
+                  key: flight.business_class
+
+            - name: flight_economy_class
+              valueFrom:
+                configMapKeyRef:
+                  name: test-config
+                  key: flight.economy_class
+
+            - name: flight_capacity
+              valueFrom:
+                secretKeyRef:
+                  name: test-secrets
+                  key: flight.capacity

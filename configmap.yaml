@@ -1,0 +1,9 @@
+apiVersion : v1
+kind : ConfigMap
+metadata:
+  name : test-config
+data:
+  flight :
+    first_class : FIRST CLASS
+    business_class : BUSINESS CLASS
+    economy_class : ECONOMY
